@@ -24,3 +24,10 @@ X_test = pd.DataFrame(X_test)
 #valueerror: x and y must have same first dimension, but
 #have shapes (100,) and (1,100)
 
+y_new = y_new.flatten()
+
+#-------------------------------------------------------
+# THE END
+#-------------------------------------------------------
+
+
