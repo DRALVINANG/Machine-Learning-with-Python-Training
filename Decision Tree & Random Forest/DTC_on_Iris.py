@@ -112,3 +112,7 @@ predicted_class = dtc.predict(simulated_data)
 
 # Display the predicted class
 print(f"Predicted class for the simulated data: {predicted_class[0]}")
+
+#------------------------------------------------------------------------------------------------
+#THE END
+#------------------------------------------------------------------------------------------------
