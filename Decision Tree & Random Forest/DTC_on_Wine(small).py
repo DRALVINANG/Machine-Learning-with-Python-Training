@@ -65,8 +65,12 @@ graph = Source(tree.export_graphviz(dtc, out_file=None,
                       filled=True))
 
 # Render and display the decision tree
-graph.render("decision_tree_wine")
-display(graph)
+graph.render("decision_tree_wine", format = "png")
+print(graph)
+
+#print is for thonny but u must know how to install graphviz properly first in windows
+#display is for google colab (it will work)
+#thus this code is meant for thonny users only
 
 
 #------------------------------------------------------------------------------------------------
