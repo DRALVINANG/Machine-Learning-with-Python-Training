@@ -92,6 +92,11 @@ display(graph)
 #note that display only works for Google Colab
 #u must change to print and install graphviz on your computer if you are using thonny
 
+#use these codes below if you are using thonny but make sure its properly installed first
+# on your windows
+#Render and display the decision tree
+#graph.render("xxxxxxxtitle", format = "png")
+#print(graph)
 
 #------------------------------------------------------------------------------------------------
 #Step 7: Prediction
