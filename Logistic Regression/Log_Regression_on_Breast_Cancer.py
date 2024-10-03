@@ -47,7 +47,15 @@ y_pred = logistic_model.predict(X_test_scaled)
 probabilities = logistic_model.predict_proba(X_test_scaled)
 
 #--------------------------------------------------------------------
-# Step 5: Model Evaluation
+# Step 5: Visualize Results (Logistic Curve and Decision Boundary)
+#--------------------------------------------------------------------
+# We will skip this step for breast cancer since it's a high-dimensional dataset (30 features), 
+# and plotting a logistic curve would not be practical in this case. 
+# Logistic regression is trained on all features.
+
+
+#--------------------------------------------------------------------
+# Step 6: Model Evaluation
 #--------------------------------------------------------------------
 # Confusion Matrix
 cm = confusion_matrix(y_test, y_pred)
@@ -75,7 +83,7 @@ print(f"Accuracy: {accuracy:.2f}")
 print("Classification Report:\n", classification_report(y_test, y_pred))
 
 #--------------------------------------------------------------------
-# Step 6: Prediction Examples
+# Step 7: Prediction Examples
 #--------------------------------------------------------------------
 # Example: Predict for a sample in the test set
 example_index = 5  # Example index from the test set
