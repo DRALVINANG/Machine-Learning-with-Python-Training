@@ -36,6 +36,8 @@ feature_importances_df = pd.DataFrame({
 # Sort by importance
 feature_importances_df = feature_importances_df.sort_values(by="Importance", ascending=False)
 
+display(feature_importances_df)
+
 # Plot with colors
 plt.figure(figsize=(8, 6))
 sns.barplot(x="Importance", y="Feature", data=feature_importances_df, palette="Set2")
