@@ -6,6 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score  # Import r2_score for R-squared
 
 # Load the Advertising dataset from the provided URL
 url = 'https://www.alvinang.sg/s/Advertising.csv'
@@ -86,6 +87,13 @@ plt.legend()
 
 # Display the plot
 plt.show()
+
+#--------------------------------------------------------------------
+# Step 8: R-Squared Value
+#--------------------------------------------------------------------
+# Calculate the R-squared value to evaluate the model
+r2 = r2_score(y_test, sales_pred_test)
+print(f"R-squared Value: {r2:.2f}")
 
 #--------------------------------------------------------------------
 # THE END
