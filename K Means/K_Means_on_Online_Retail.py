@@ -41,6 +41,7 @@ customer_df = df.groupby('CustomerID').agg({
 
 # Rename columns
 customer_df.columns = ['CustomerID', 'TotalQuantity', 'TotalSales', 'UniqueInvoices']
+display(customer_df)
 
 #--------------------------------------------------------------------
 # Step 3: Standardize the Data
@@ -72,6 +73,7 @@ plt.show()
 # Based on the Elbow Method, let's assume 3 clusters are optimal
 kmeans = KMeans(n_clusters=3, random_state=42)
 customer_df['Cluster'] = kmeans.fit_predict(X_scaled)
+display(customer_df)
 
 #--------------------------------------------------------------------
 # Step 5: Visualize the Clusters in 3D (Rotatable)
