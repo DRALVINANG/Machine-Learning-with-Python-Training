@@ -92,10 +92,10 @@ fig.show()
 #--------------------------------------------------------------------
 # Step 6: Print Cluster Insights
 #--------------------------------------------------------------------
-print("\nCluster Insights:")
-print("- Cluster 0: High-value customers, purchasing large quantities with high total sales.")
-print("- Cluster 1: Medium-value customers, buying moderately but regularly.")
-print("- Cluster 2: Low-value or infrequent buyers, with low total sales and fewer invoices.\n")
+print("\nRevised Cluster Insights:")
+print("- **Cluster 0** (Red): Low-value or infrequent buyers, with low total sales, low quantities, and fewer invoices.")
+print("- **Cluster 2** (Purple): Medium-value customers, buying moderately but regularly.")
+print("- **Cluster 1** (Green): High-value customers, purchasing large quantities with high total sales.\n")
 
 #--------------------------------------------------------------------
 # Step 7: Predict New Data Points (Simulated Prediction)
