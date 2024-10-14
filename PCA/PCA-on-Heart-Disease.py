@@ -1,9 +1,12 @@
+# Install plotly if not already installed
+!pip install plotly
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+import plotly.express as px  # For interactive 3D plotting
 
 #--------------------------------------------------------------------
 # Step 1: Load and Explore Dataset
@@ -16,28 +19,37 @@ df = pd.read_csv(url)
 print(df.head())
 
 #--------------------------------------------------------------------
-# Step 2: Data Preprocessing
+# Step 2: Handle 'ca' and 'thal' Columns (Convert to Numeric)
 #--------------------------------------------------------------------
-# Drop any non-numeric columns if present and check for null values
-df = df.dropna()  # Dropping rows with any missing values
-df_numeric = df.select_dtypes(include=[np.number])  # Keep only numeric columns
+# Replace '?' with NaN for 'ca' and 'thal' columns
+df['ca'] = pd.to_numeric(df['ca'], errors='coerce')  # Convert to numeric, coerce errors
+df['thal'] = pd.to_numeric(df['thal'], errors='coerce')  # Convert to numeric, coerce errors
 
+# Drop rows with NaN values
+df.dropna(inplace=True)
+
+# Verify that 'ca' and 'thal' are now numeric and no NaN values remain
+print(df[['ca', 'thal']].info())
+
+#--------------------------------------------------------------------
+# Step 3: Separate Features and Target Variable
+#--------------------------------------------------------------------
 # Separate features and target variable
-X = df_numeric.drop(columns='target')  # Assuming 'target' is the column for diagnosis
-y = df_numeric['target']
+X = df.drop(columns='target')  # Assuming 'target' is the column for diagnosis
+y = df['target']
 
 # Display the summary of the cleaned dataset
-print(df_numeric.info())
+print(df.info())
 
 #--------------------------------------------------------------------
-# Step 3: Standardize the Data
+# Step 4: Standardize the Data
 #--------------------------------------------------------------------
 # Standardize the data to have mean=0 and variance=1
 scaler = StandardScaler()
 scaled_data = scaler.fit_transform(X)
 
 #--------------------------------------------------------------------
-# Step 4: Apply PCA with 10 Components
+# Step 5: Apply PCA with 10 Components
 #--------------------------------------------------------------------
 # Initialize PCA with 10 components
 pca = PCA(n_components=10)
@@ -46,7 +58,7 @@ pca = PCA(n_components=10)
 x_pca = pca.fit_transform(scaled_data)
 
 #--------------------------------------------------------------------
-# Step 5: Scree Plot (Variance Explained by Each Component)
+# Step 6: Scree Plot (Variance Explained by Each Component)
 #--------------------------------------------------------------------
 # Generate a scree plot to visualize explained variance
 plt.figure(figsize=(8, 6))
@@ -58,7 +70,7 @@ plt.ylabel('Variance Explained')
 plt.show()
 
 #--------------------------------------------------------------------
-# Step 6: Cumulative Variance Explained
+# Step 7: Cumulative Variance Explained
 #--------------------------------------------------------------------
 # Calculate cumulative variance explained by the components
 cumulative_variance = np.cumsum(pca.explained_variance_ratio_)
@@ -77,52 +89,52 @@ for i, variance in enumerate(pca.explained_variance_ratio_, 1):
     print(f"Principal Component {i}: {variance:.6f}")
 
 #--------------------------------------------------------------------
-# Step 7: Apply PCA with 2 Components for Visualization
+# Step 8: Apply PCA with 3 Components for Visualization
 #--------------------------------------------------------------------
-# Now, we will apply PCA with 2 components (since PC1 and PC2 are most important)
-pca_2 = PCA(n_components=2)
-x_pca_2 = pca_2.fit_transform(scaled_data)
+# Apply PCA with 3 components (since we want to visualize and analyze PC1, PC2, PC3)
+pca_3 = PCA(n_components=3)
+x_pca_3 = pca_3.fit_transform(scaled_data)
 
 #--------------------------------------------------------------------
-# Step 8: Visualize Principal Components (Scatter Plot)
+# Step 9: Visualize Principal Components (3D Scatter Plot with Plotly)
 #--------------------------------------------------------------------
-# Create a scatter plot for the first two principal components
-plt.figure(figsize=(8, 6))
+# Create an interactive 3D scatter plot using Plotly with smaller points
+fig = px.scatter_3d(
+    x=x_pca_3[:, 0],
+    y=x_pca_3[:, 1],
+    z=x_pca_3[:, 2],
+    color=y,  # Color the points by the 'target' variable
+    labels={'x': 'First Principal Component', 'y': 'Second Principal Component', 'z': 'Third Principal Component'},
+    title='PCA: First vs Second vs Third Principal Component',
+    opacity=0.7  # Adjust the opacity if needed for better visibility
+)
 
-# Scatter plot with color representing the target variable (diagnosis)
-scatter = plt.scatter(x_pca_2[:, 0], x_pca_2[:, 1], c=y, cmap='plasma')
-plt.xlabel('First Principal Component')
-plt.ylabel('Second Principal Component')
-plt.title('PCA: First vs Second Principal Component')
-
-# Create a legend for the target variable classes
-legend1 = plt.legend(*scatter.legend_elements(), title="Target (Heart Disease)")
-plt.gca().add_artist(legend1)
-
-plt.show()
+# Show the plot in the notebook (rotatable and zoomable) with smaller points
+fig.update_traces(marker=dict(size=3))  # Set size of dots to be smaller
+fig.show()
 
 #--------------------------------------------------------------------
-# Step 9: Get the Loadings (Principal Axes in Feature Space)
+# Step 10: Get the Loadings (Principal Axes in Feature Space)
 #--------------------------------------------------------------------
-# Get the loadings (weights of features for PC1 and PC2)
-loadings = pd.DataFrame(pca_2.components_.T, columns=['PC1', 'PC2'], index=X.columns)
+# Get the loadings (weights of features for PC1, PC2, and PC3)
+loadings = pd.DataFrame(pca_3.components_.T, columns=['PC1', 'PC2', 'PC3'], index=X.columns)
 
 # Display the loadings for each principal component
-print("Feature Loadings for PC1 and PC2:\n", loadings)
+print("Feature Loadings for PC1, PC2, and PC3:\n", loadings)
 
 #--------------------------------------------------------------------
-# Step 10: Visualize the Loadings for PC1 and PC2
+# Step 11: Visualize the Loadings for PC1, PC2, and PC3
 #--------------------------------------------------------------------
 plt.figure(figsize=(10, 6))
 plt.bar(loadings.index, loadings['PC1'], color='blue', label='PC1')
 plt.bar(loadings.index, loadings['PC2'], color='green', bottom=loadings['PC1'], label='PC2')
+plt.bar(loadings.index, loadings['PC3'], color='orange', bottom=loadings['PC1']+loadings['PC2'], label='PC3')
 plt.xticks(rotation=90)
 plt.ylabel('Loading Value')
-plt.title('Feature Loadings for PC1 and PC2')
+plt.title('Feature Loadings for PC1, PC2, and PC3')
 plt.legend()
 plt.show()
 
 #--------------------------------------------------------------------
 # THE END
 #--------------------------------------------------------------------
-
