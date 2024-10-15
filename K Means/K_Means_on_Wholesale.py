@@ -5,7 +5,6 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import plotly.express as px
@@ -67,17 +66,38 @@ display(df)
 #--------------------------------------------------------------------
 # Step 5: Visualize the Clusters in 3D (Rotatable)
 #--------------------------------------------------------------------
-# For visualization, we'll pick three dimensions from the dataset. Let's use 'Fresh', 'Milk', and 'Grocery' for the 3D plot.
-# Renaming 'Fresh' to 'Fresh Products' for clarity
-df = df.rename(columns={'Fresh': 'Fresh Products'})
+# Renaming columns for clarity to reflect annual spending in dollars
+df = df.rename(columns={'Fresh': 'Annual Spending on Fresh Products ($)', 
+                        'Milk': 'Annual Spending on Milk Products ($)', 
+                        'Grocery': 'Annual Spending on Grocery Products ($)'})
 
-fig = px.scatter_3d(df, x='Fresh Products', y='Milk', z='Grocery',
+# Creating 3D scatter plot with more informative labels and title
+fig = px.scatter_3d(df, x='Annual Spending on Fresh Products ($)', 
+                    y='Annual Spending on Milk Products ($)', 
+                    z='Annual Spending on Grocery Products ($)',
                     color=df['Cluster'].astype(str),
-                    title='K-Means Clustering (3D Visualization)',
-                    labels={'Fresh Products': 'Fresh Products (Vegetables, Fruits, Meat)', 'Milk': 'Milk', 'Grocery': 'Grocery'},
+                    title='Wholesale Customers Annual Purchasing Breakdown ($)',
+                    labels={
+                        'Annual Spending on Fresh Products ($)': 'Annual Fresh Products Spending ($)',
+                        'Annual Spending on Milk Products ($)': 'Annual Milk Spending ($)',
+                        'Annual Spending on Grocery Products ($)': 'Annual Grocery Spending ($)',
+                    },
                     opacity=0.7)
 
 # Show the plot in the notebook (rotatable and zoomable)
+fig.update_layout(
+    scene = dict(
+        xaxis_title='Annual Fresh Products Spending ($)',
+        yaxis_title='Annual Milk Spending ($)',
+        zaxis_title='Annual Grocery Spending ($)'),
+    title={
+        'text': "Wholesale Customers' Purchasing Breakdown",
+        'x': 0.5,
+        'xanchor': 'center',
+        'yanchor': 'top'},
+    margin=dict(l=0, r=0, b=0, t=50),
+)
+
 fig.update_traces(marker=dict(size=4))  # Set size of dots
 fig.show()
 
@@ -86,31 +106,31 @@ fig.show()
 #--------------------------------------------------------------------
 # Add color codes to the cluster insights
 print("\nRevised Cluster Insights with Color Code:")
-print("- **Cluster 0 (Purple)**: Low-value or infrequent buyers, purchasing small amounts of fresh products, milk, and grocery items.")
-print("- **Cluster 1 (Red)**: Medium-value customers, buying moderate quantities of products.")
-print("- **Cluster 2 (Green)**: High-value customers, purchasing large quantities of fresh products, milk, and grocery items.\n")
+print("- **Cluster 0 (Purple)**: Low-value or infrequent buyers, spending small amounts on fresh products, milk, and grocery items.")
+print("- **Cluster 1 (Red)**: Medium-value customers, spending moderate amounts on products.")
+print("- **Cluster 2 (Green)**: High-value customers, spending large amounts on fresh products, milk, and grocery items.\n")
 
 #--------------------------------------------------------------------
 # Step 7: Predict New Data Points (Simulated Prediction)
 #--------------------------------------------------------------------
 # Function to predict which cluster a new customer would belong to
-def predict_new_customer(fresh_products, milk, grocery, frozen, detergents_paper, delicassen):
+def predict_new_customer(fresh_spending, milk_spending, grocery_spending, frozen, detergents_paper, delicassen):
     # Standardize the new customer's data
-    new_data_scaled = scaler.transform([[fresh_products, milk, grocery, frozen, detergents_paper, delicassen]])
+    new_data_scaled = scaler.transform([[fresh_spending, milk_spending, grocery_spending, frozen, detergents_paper, delicassen]])
     # Predict the cluster
     cluster = kmeans.predict(new_data_scaled)[0]
     return cluster
 
 # Simulate a new customer with sample data
 new_customer = {
-    'Fresh Products': 8000,
-    'Milk': 1500,
-    'Grocery': 3000,
+    'Annual Spending on Fresh Products ($)': 8000,
+    'Annual Spending on Milk Products ($)': 1500,
+    'Annual Spending on Grocery Products ($)': 3000,
     'Frozen': 2000,
     'Detergents_Paper': 600,
     'Delicassen': 1000
 }
-predicted_cluster = predict_new_customer(new_customer['Fresh Products'], new_customer['Milk'], new_customer['Grocery'],
+predicted_cluster = predict_new_customer(new_customer['Annual Spending on Fresh Products ($)'], new_customer['Annual Spending on Milk Products ($)'], new_customer['Annual Spending on Grocery Products ($)'],
                                          new_customer['Frozen'], new_customer['Detergents_Paper'], new_customer['Delicassen'])
-print(f"Simulated New Customer Features: Fresh Products={new_customer['Fresh Products']}, Milk={new_customer['Milk']}, Grocery={new_customer['Grocery']}, Frozen={new_customer['Frozen']}, Detergents_Paper={new_customer['Detergents_Paper']}, Delicassen={new_customer['Delicassen']}")
+print(f"Simulated New Customer Features: Fresh Spending={new_customer['Annual Spending on Fresh Products ($)']} $, Milk Spending={new_customer['Annual Spending on Milk Products ($)']} $, Grocery Spending={new_customer['Annual Spending on Grocery Products ($)']} $, Frozen={new_customer['Frozen']} $, Detergents_Paper={new_customer['Detergents_Paper']} $, Delicassen={new_customer['Delicassen']} $")
 print(f"The new customer belongs to Cluster {predicted_cluster}.")
