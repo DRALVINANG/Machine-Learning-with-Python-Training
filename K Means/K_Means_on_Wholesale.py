@@ -130,8 +130,12 @@ new_customer = {
     'Detergents_Paper': 600,
     'Delicassen': 1000
 }
-predicted_cluster = predict_new_customer(new_customer['Annual Spending on Fresh Products ($)'], new_customer['Annual Spending on Milk Products ($)'], new_customer['Annual Spending on Grocery Products ($)'],
-                                         new_customer['Frozen'], new_customer['Detergents_Paper'], new_customer['Delicassen'])
+predicted_cluster = predict_new_customer(new_customer['Annual Spending on Fresh Products ($)'], 
+                                         new_customer['Annual Spending on Milk Products ($)'], 
+                                         new_customer['Annual Spending on Grocery Products ($)'],
+                                         new_customer['Frozen'], 
+                                         new_customer['Detergents_Paper'], 
+                                         new_customer['Delicassen'])
 
 # Print the simulated customer features line by line
 print(f"Simulated New Customer Features:")
