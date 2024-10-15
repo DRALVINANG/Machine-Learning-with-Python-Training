@@ -132,5 +132,15 @@ new_customer = {
 }
 predicted_cluster = predict_new_customer(new_customer['Annual Spending on Fresh Products ($)'], new_customer['Annual Spending on Milk Products ($)'], new_customer['Annual Spending on Grocery Products ($)'],
                                          new_customer['Frozen'], new_customer['Detergents_Paper'], new_customer['Delicassen'])
-print(f"Simulated New Customer Features: Fresh Spending={new_customer['Annual Spending on Fresh Products ($)']} $, Milk Spending={new_customer['Annual Spending on Milk Products ($)']} $, Grocery Spending={new_customer['Annual Spending on Grocery Products ($)']} $, Frozen={new_customer['Frozen']} $, Detergents_Paper={new_customer['Detergents_Paper']} $, Delicassen={new_customer['Delicassen']} $")
-print(f"The new customer belongs to Cluster {predicted_cluster}.")
+
+# Print the simulated customer features line by line
+print(f"Simulated New Customer Features:")
+print(f" - Fresh Spending: {new_customer['Annual Spending on Fresh Products ($)']} $")
+print(f" - Milk Spending: {new_customer['Annual Spending on Milk Products ($)']} $")
+print(f" - Grocery Spending: {new_customer['Annual Spending on Grocery Products ($)']} $")
+print(f" - Frozen: {new_customer['Frozen']} $")
+print(f" - Detergents_Paper: {new_customer['Detergents_Paper']} $")
+print(f" - Delicassen: {new_customer['Delicassen']} $")
+
+# Display the predicted cluster for the new customer
+print(f"\nThe new customer belongs to Cluster {predicted_cluster}.")
