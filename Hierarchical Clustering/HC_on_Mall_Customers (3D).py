@@ -38,16 +38,16 @@ print("\nScaled Data:\n", X_scaled[:5])
 #---------------------------------------------------------------------------------------------
 plt.figure(figsize=(10, 7))
 dendrogram = sch.dendrogram(sch.linkage(X_scaled, method='ward'))
-plt.axhline(y=7, color='r', linestyle='--')  # Adjusted threshold for 3 features
+plt.axhline(y=7, color='r', linestyle='--')  # Adjusted threshold to suggest 6 clusters
 plt.title('Dendrogram for Customer Segmentation')
 plt.xlabel('Customers')
 plt.ylabel('Euclidean Distance')
 plt.show()
 
 #---------------------------------------------------------------------------------------------
-# Step 6: Perform Agglomerative Clustering
+# Step 6: Perform Agglomerative Clustering with 6 Clusters
 #---------------------------------------------------------------------------------------------
-cluster = AgglomerativeClustering(n_clusters=5, metric='euclidean', linkage='ward')
+cluster = AgglomerativeClustering(n_clusters=6, metric='euclidean', linkage='ward')
 df['Cluster'] = cluster.fit_predict(X_scaled)
 
 print("\nClustered Data:\n", df.head())
@@ -66,7 +66,3 @@ fig = px.scatter_3d(df,
                     opacity=0.8)
 
 fig.show()
-
-#---------------------------------------------------------------------------------------------
-# THE END
-#---------------------------------------------------------------------------------------------
