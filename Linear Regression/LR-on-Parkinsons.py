@@ -14,8 +14,8 @@ data.head()
 # Drop any rows with missing values if present
 data = data.dropna()
 
-# Separate features (X) and target (y)
-X = data.drop(columns=['total_UPDRS'])
+# Separate features (X) and target (y) while excluding 'motor_UPDRS' column
+X = data.drop(columns=['total_UPDRS', 'motor_UPDRS'])
 y = data['total_UPDRS']
 
 #------------------------------------------------------------------------------------------------
