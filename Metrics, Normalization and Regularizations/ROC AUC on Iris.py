@@ -2,6 +2,8 @@
 # Pip install Scikit Plot
 #-----------------------------------------------------------
 !pip install scikit-plot
+!pip install scipy==1.7.3
+
 
 #-----------------------------------------------------------
 # Import Libraries
