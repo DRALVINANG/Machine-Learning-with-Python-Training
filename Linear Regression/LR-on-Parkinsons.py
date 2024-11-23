@@ -6,7 +6,10 @@ import pandas as pd
 # Load the Parkinson's dataset
 dataset_path = "https://raw.githubusercontent.com/DRALVINANG/Machine-Learning-with-Python-Training/refs/heads/main/Linear%20Regression/Parkinsons.csv"
 data = pd.read_csv(dataset_path)
-data.head()
+
+# Inspect the column names
+print("Columns in the dataset:")
+print(data.columns)
 
 #------------------------------------------------------------------------------------------------
 # Step 2: Extract Features and Target
@@ -14,9 +17,11 @@ data.head()
 # Drop any rows with missing values if present
 data = data.dropna()
 
-# Separate features (X) and target (y) while excluding 'motor_UPDRS' column
-X = data.drop(columns=['total_UPDRS', 'motor_UPDRS'])
-y = data['total_UPDRS']
+data = data.drop(columns=['subject#'])
+
+# Separate features (X) and target (y)
+X = data.drop(columns=['total_UPDRS', 'motor_UPDRS'])  # Features
+y = data['total_UPDRS']  # Target variable
 
 #------------------------------------------------------------------------------------------------
 # Step 3: Scale Features
@@ -74,7 +79,7 @@ plt.axis('equal')
 plt.axis('square')
 plt.xlim([0, plt.xlim()[1]])
 plt.ylim([0, plt.ylim()[1]])
-plt.plot([0, 100], [0, 100], 'r')
+plt.plot([0, 100], [0, 100], 'r')  # Line for perfect prediction
 plt.show()
 #------------------------------------------------------------------------------------------------
 # THE END
